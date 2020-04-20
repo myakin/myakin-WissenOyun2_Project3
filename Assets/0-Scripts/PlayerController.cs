@@ -9,16 +9,26 @@ public class PlayerController : MonoBehaviour {
 
     public float moveSpeed = 1f;
     public float lookSpped = 1f;
+    public GameObject carriedItem;
+    public bool isCarryingItem;
+    private bool isInputFrozen;
+    private float moveSpeedMultiplier = 1;
 
     private void Update() {
         float ver = Input.GetAxis("Vertical");
         float hor = Input.GetAxis("Horizontal");
 
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            moveSpeedMultiplier = 2;
+        } else {
+            moveSpeedMultiplier = 1;
+        }
+
         if (ver>0 || ver<0) {
-            transform.position += transform.forward * ver * moveSpeed;
+            transform.position += transform.forward * ver * moveSpeed * moveSpeedMultiplier;
         }
         if (hor>0 || hor<0) {
-            transform.position += transform.right * hor * moveSpeed;
+            transform.position += transform.right * hor * moveSpeed * moveSpeedMultiplier;
         }
         
 
@@ -32,6 +42,45 @@ public class PlayerController : MonoBehaviour {
             Camera.main.transform.GetComponent<CameraFollow>().lookUpDownOffset += -upDown * lookSpped;
         }
 
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 3.5f, 1<<0, QueryTriggerInteraction.Ignore)) {
+            Debug.Log(hit.collider.name + " " + isCarryingItem);
+            if (hit.collider.GetComponent<WeightManager>()) {
+                if (Input.GetKeyDown(KeyCode.F)) {
+                    if (!isCarryingItem && !isInputFrozen) {
+                        isInputFrozen = true;
+                        StartCoroutine(FreezeInput());
+                        CarryItem(hit.collider.gameObject);
+                    }
+                }
+                
+            }
+        }
+
+        if (isCarryingItem) {
+            carriedItem.transform.position = transform.position + (transform.forward * 1.5f);
+            if (!isInputFrozen && Input.GetKeyDown(KeyCode.F)) {
+                isInputFrozen = true;
+                StartCoroutine(FreezeInput());
+                ReleaseItem();
+            }
+        }
+
+    }
+
+    public void CarryItem(GameObject aCarryItem) {
+        aCarryItem.GetComponent<Rigidbody>().isKinematic = true;
+        carriedItem = aCarryItem;
+        isCarryingItem = true;
+    }
+    public void ReleaseItem() {
+        isCarryingItem = false;
+        carriedItem.GetComponent<Rigidbody>().isKinematic = false;
+        carriedItem = null;
+    }
+    private IEnumerator FreezeInput() {
+        yield return new WaitForSeconds(1);
+        isInputFrozen = false;
     }
 
 }
