@@ -26,10 +26,10 @@ public class PlayerController : MonoBehaviour {
         float upDown = Input.GetAxis("Mouse Y");
 
         if (leftRight>0 || leftRight<0) {
-            transform.rotation *= Quaternion.Euler(0, leftRight, 0);  
+            transform.rotation *= Quaternion.Euler(0, leftRight * lookSpped, 0);  
         }
         if (upDown>0 || upDown<0) {
-            Camera.main.transform.GetComponent<CameraFollow>().lookUpDownOffset += -upDown;
+            Camera.main.transform.GetComponent<CameraFollow>().lookUpDownOffset += -upDown * lookSpped;
         }
 
     }
