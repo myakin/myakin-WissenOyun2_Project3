@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class WeightManager : MonoBehaviour {
     public float weight;
+    public string itemName;
 }
