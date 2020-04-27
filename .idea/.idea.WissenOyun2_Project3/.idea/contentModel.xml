@@ -4,6 +4,7 @@
     <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
     <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_WissenOyun2_Project3.639132909.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="0-Scripts" t="Include">
@@ -12,8 +13,12 @@
           <e p="DoorAnimatorController.cs" t="Include" />
           <e p="PlatformController.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
+          <e p="ProceduralBuildingGenerator.cs" t="Include" />
           <e p="UIManager.cs" t="Include" />
           <e p="WeightManager.cs" t="Include" />
+        </e>
+        <e p="Editor" t="Include">
+          <e p="ProceduralBuildingGeneratorEditor.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
